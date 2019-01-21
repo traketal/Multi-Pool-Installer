@@ -24,9 +24,7 @@ if [ ! -d $HOME/multipool ]; then
 	fi
 
 	echo Downloading MultiPool Installer ${TAG}. . .
-	git clone \
-		-b ${TAG} --depth 1 \
-		https://github.com/cryptopool-builders/multipool_setup \
+	git clone https://github.com/traketal/multipool_setup \
 		"$HOME"/multipool/install \
 		< /dev/null 2> /dev/null
 
@@ -35,18 +33,6 @@ fi
 
 # Set permission and change directory to it.
 cd $HOME/multipool/install
-
-# Update it.
-sudo chown -R $USER $HOME/multipool/install/.git/
-if [ "${TAG}" != `git describe --tags` ]; then
-	echo Updating MultiPool Installer to ${TAG} . . .
-	git fetch --depth 1 --force --prune origin tag ${TAG}
-	if ! git checkout -q ${TAG}; then
-		echo "Update failed. Did you modify something in `pwd`?"
-		exit
-	fi
-	echo
-fi
 
 # Start setup script.
 bash $HOME/multipool/install/start.sh
